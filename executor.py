@@ -3,6 +3,7 @@ from keras.preprocessing import image
 from keras.layers import Input
 from keras.layers.pooling import GlobalAveragePooling2D, AveragePooling2D
 from keras.models import Model
+from keras import backend as K
 
 import joblib
 import numpy as np
@@ -51,7 +52,7 @@ def generate_feature_map(img_path):
     # generate feature map
     print("generating feature map...")
 
-    p = model.predict(img_preprocess)
+    p = model._make_predict_function(img_preprocess)
 
     print(p.shape)
 
