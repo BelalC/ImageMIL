@@ -26,9 +26,9 @@ pool_size = 5
 
 
 def generate_feature_map(img_path):
+
     # load image file + pre-process
     img = image.load_img(img_path)
-
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     img_preprocess = preprocess_input(img_array)
@@ -49,10 +49,13 @@ def generate_feature_map(img_path):
     # define prediction model
     model = Model(inputs=base_model.input, outputs=x)
 
+    global graph
+    graph = tf.get_default_graph()
+
     # generate feature map
     print("generating feature map...")
-
-    p = model._make_predict_function(img_preprocess)
+    with graph.as_default():
+        p = model.predict(img_preprocess)
 
     print(p.shape)
 
@@ -63,6 +66,8 @@ def generate_feature_map(img_path):
 
     if len(feat) > 0:
         print('size of resized feature map: %d x %d' % (len(feat), feat[0].shape[0]))
+
+    K.clear_session()
 
     return feat
 
@@ -79,15 +84,19 @@ def execute(model_path, img_path):
 
     # generate feature map from VGG16
     feat_map = np.expand_dims(generate_feature_map(img_path), axis=0) # expand dimensions to pass 3-dimensional object to model.predict()
-
     # predict probability
     prediction = predict_svm(model_path = model_path, feat_map = feat_map)
 
-    return np.argmax(prediction, axis=1)
+    return int(np.argmax(prediction, axis=1))
+
 
 if __name__ == '__main__':
+
     img_path = ("/home/paperspace/Data/break_his/BreaKHis_v1/histology_slides/"
             "breast/benign/SOB/adenosis/SOB_B_A_14-22549AB/100X/SOB_B_A-14-22549AB-100-001.png")
+
     model_path = "/home/paperspace/Data/break_his/BreaKHis200/model_median_Fold 1.joblib"
+
     x = execute(model_path, img_path)
+
     print(x)
