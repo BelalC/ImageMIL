@@ -4,7 +4,7 @@ from keras.layers import Input
 from keras.layers.pooling import GlobalAveragePooling2D, AveragePooling2D
 from keras.models import Model
 
-
+import joblib
 import numpy as np
 
 
@@ -82,4 +82,8 @@ def execute(model_path, img_path):
     return prediction
 
 if __name__ == '__main__':
-    execute()
+    img_path = ("/home/paperspace/Data/break_his/BreaKHis_v1/histology_slides/"
+            "breast/benign/SOB/adenosis/SOB_B_A_14-22549AB/100X/SOB_B_A-14-22549AB-100-001.png")
+    model_path = "/home/paperspace/Data/break_his/BreaKHis200/model_median_Fold 1.joblib"
+    x = execute(model_path, img_path)
+    print(x)
