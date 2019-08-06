@@ -79,7 +79,7 @@ def execute(model_path, img_path):
     # predict probability
     prediction = predict_svm(model_path = model_path, feat_map = feat_map)
 
-    return prediction
+    return np.argmax(prediction, axis=1)
 
 if __name__ == '__main__':
     img_path = ("/home/paperspace/Data/break_his/BreaKHis_v1/histology_slides/"
