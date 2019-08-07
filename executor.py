@@ -65,7 +65,7 @@ def generate_feature_map(img_path):
         feat = [p.squeeze()]
 
     if len(feat) > 0:
-        print('size of resized feature map: %d x %d' % (len(feat), feat[0].shape[0]))
+        print('size of re-sized feature map: %d x %d' % (len(feat), feat[0].shape[0]))
 
     K.clear_session()
 
@@ -80,12 +80,16 @@ def predict_svm(model_path, feat_map):
     return p
 
 
-def execute(model_path, img_path):
+def execute(test_img_path):
+
+    # trained SVM model path
+    couture_model_path = "/home/paperspace/Data/break_his/BreaKHis200/model_median_Fold 1.joblib"
 
     # generate feature map from VGG16
-    feat_map = np.expand_dims(generate_feature_map(img_path), axis=0) # expand dimensions to pass 3-dimensional object to model.predict()
+    feat_map = np.expand_dims(generate_feature_map(test_img_path), axis=0) # expand dimensions to pass 3-dimensional object to model.predict()
+
     # predict probability
-    prediction = predict_svm(model_path = model_path, feat_map = feat_map)
+    prediction = predict_svm(model_path=couture_model_path, feat_map=feat_map)
 
     return int(np.argmax(prediction, axis=1))
 
