@@ -2,8 +2,7 @@ import numpy as np
 import sklearn
 import sklearn.model_selection
 
-from linear_classifier import LinearClassifier
-from linear_classifier import balanced_accuracy
+from ImageMIL.linear_classifier import LinearClassifier, balanced_accuracy
 
 def slices(groups):
     """

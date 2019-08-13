@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 import sklearn
 #import sklearn.grid_search
@@ -6,7 +7,6 @@ import sklearn.calibration
 import sklearn.neighbors
 import sklearn.discriminant_analysis
 from sklearn.base import BaseEstimator, ClassifierMixin
-import warnings
 from sklearn.exceptions import ConvergenceWarning
 
 def balanced_accuracy( y_true, y_pred, sample_weight=None ):

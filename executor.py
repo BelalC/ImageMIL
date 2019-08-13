@@ -8,9 +8,9 @@ import tensorflow as tf
 
 import joblib
 import numpy as np
-import util
-from linear_classifier import LinearClassifier
-from sil import SIL
+import ImageMIL.util as util
+import ImageMIL.linear_classifier as linear_classifier
+import ImageMIL.sil as sil
 
 
 ### PARAMETERS ###
@@ -103,3 +103,4 @@ if __name__ == '__main__':
     #model_path = "/home/paperspace/Data/break_his/BreaKHis200/model_median_Fold 1.joblib"
 
     execute()
+
