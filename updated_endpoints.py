@@ -1178,17 +1178,21 @@ def executeZippedAndChargeCreditsAndUpdateCustomerSupplierTable():
     db.session.merge(updatedBalanceSupplier)
     db.session.commit()
 
+    ####################
+    # MODEL EXECUTION
+    ####################
+
     #### import execute function from MODEL-SPECIFIC executor file
     ### var2 = name of the extracted model folder
 
     model_name = var2
 
-    module_path = "/home/chiefai/production/models"
-    sys.path.append(module_path)
-    sys.path.append(os.path.join(module_path, model_name))
+    sys.path.append(executor_dir)
+    sys.path.append(os.path.join(executor_dir, model_name))
 
     module = importlib.import_module(".executor", model_name)
     result = module.execute(DataPath)
+
 
     datasetsID = Datasets.query.order_by(Datasets.datasets_id.desc()).first().datasets_id + 1
     datasets_table = Datasets(datasetsID, customerID, DataPath , 'NOW()')
